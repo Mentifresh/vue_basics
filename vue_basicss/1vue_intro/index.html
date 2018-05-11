@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Basics</title>
+
+    <style>
+        .color-red {
+            color: red;
+        }
+        .is-loading {
+            background-color: blue;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="root">
+        <h1 :class="className">Wooww</h1>
+        <ul>
+            <li v-for="name in names" :title="name">{{ name }}</li>
+            <br>
+            <li v-for="name in names" v-bind:title="name" v-text="name"></li>
+        </ul>
+
+        <input id="input" type="text" v-model="newName">
+        <button id="button" @click="addName">Add name</button>
+
+        <br><br>
+        <button v-bind:class="{ 'is-loading': isLoading }" @click="toggleClass">Toggle button color</button>
+        <br><br>
+        <button :disabled="isDisabled" @click="disable">Disable button</button>
+
+
+        <br><br><br><br>
+        <h3>All Tasks</h3>
+        <ul>
+            <li v-for="task in tasks">{{ task.description }}</li>
+        </ul>
+
+        <h3>Incomplete Tasks</h3>
+        <ul>
+            <li v-for="task in incompleteTasks">{{ task.description }}</li>
+        </ul>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#root',
+
+            data: {
+                message: 'Hello World!',
+                isLoading: false,
+                newName: '',
+                names: ['Dani', 'Joe', 'Mary', 'Spock'],
+                className: 'color-red',
+                isDisabled: false,
+                tasks: [
+                    { description: 'Learn Vue', completed: false },
+                    { description: 'Learn Laravel', completed: true },
+                    { description: 'Rock the project', completed: false },
+                    { description: 'Finish DB', completed: false },
+                    { description: 'Complete image uploading', completed: true },
+                    { description: 'Redesign android UI', completed: true },
+                    { description: 'implement Vue', completed: false },
+                ]
+            },
+            methods: {
+                addName() {
+                    this.names.push(this.newName);
+                    this.newName = '';
+                },
+                toggleClass() {
+                    this.isLoading === true ? this.isLoading=false : this.isLoading=true;
+                },
+                disable() {
+                    this.isDisabled = true;
+                }
+            },
+            computed: {
+                reversedMessage() {
+                    return this.message.split('').reverse().join('');
+                },
+                incompleteTasks() {
+                    return this.tasks.filter(task => !task.completed );
+                }
+            },
+            mounted() {
+                
+            }
+        });
+    </script>
+</body>
+</html>
